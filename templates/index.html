@@ -713,7 +713,25 @@
 
             // Show selected tab content
             document.getElementById(tabName).classList.add('active');
-            event.target.classList.add('active');
+            
+            // Find and activate the corresponding tab button
+            const tabButtons = document.querySelectorAll('.tab');
+            tabButtons.forEach(tab => {
+                if (tab.textContent.includes(getTabDisplayName(tabName))) {
+                    tab.classList.add('active');
+                }
+            });
+        }
+
+        function getTabDisplayName(tabName) {
+            const tabNames = {
+                'destinations': 'Destinations',
+                'weather': 'Weather',
+                'itinerary': 'Itinerary',
+                'packing': 'Packing',
+                'visa': 'Visa Info'
+            };
+            return tabNames[tabName] || tabName;
         }
 
         function getFormData() {
@@ -748,31 +766,44 @@
         document.getElementById('travelForm').addEventListener('submit', async function(e) {
             e.preventDefault();
 
+            // Switch to itinerary tab
+            showTab('itinerary');
+            
             const data = getFormData();
-            showLoading('destinationsResult');
+            showLoading('itineraryResult');
+
+            // Use preferred destinations as the destination for itinerary
+            let destination = data.preferred_destinations;
+            if (!destination || destination.trim() === '') {
+                destination = 'Paris'; // Default destination if none specified
+            }
 
             try {
-                const response = await fetch('/plan', {
+                const response = await fetch('/itinerary', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify(data)
+                    body: JSON.stringify({
+                        destination: destination,
+                        interests: data.interests,
+                        days: parseInt(data.trip_days)
+                    })
                 });
 
                 const result = await response.json();
 
-                if (result.success) {
-                    document.getElementById('destinationsResult').innerHTML = `
-                        <div class="result-box">${result.destinations}</div>
+                if (result.error) {
+                    document.getElementById('itineraryResult').innerHTML = `
+                        <div class="result-box">Error: ${result.error}</div>
                     `;
                 } else {
-                    document.getElementById('destinationsResult').innerHTML = `
-                        <div class="result-box">Error: ${result.error}</div>
+                    document.getElementById('itineraryResult').innerHTML = `
+                        <div class="result-box">${result.itinerary}</div>
                     `;
                 }
             } catch (error) {
-                document.getElementById('destinationsResult').innerHTML = `
+                document.getElementById('itineraryResult').innerHTML = `
                     <div class="result-box">Error: ${error.message}</div>
                 `;
             }
