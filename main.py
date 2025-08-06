@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request, jsonify
-import openai
 import requests
 import googlemaps
 import json
@@ -32,10 +31,9 @@ class TravelPlanner:
 
             if openai_key and len(openai_key) > 10:  # Basic validation
                 try:
-                    # Initialize OpenAI client with explicit configuration
-                    self.openai_client = openai.OpenAI(
-                        api_key=openai_key
-                    )
+                    # Initialize OpenAI client - remove any conflicting parameters
+                    import openai
+                    self.openai_client = openai.OpenAI(api_key=openai_key)
                     print("✅ OpenAI client initialized successfully")
 
                     # Test the client with a simple request
