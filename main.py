@@ -24,7 +24,8 @@ class TravelPlanner:
             self.weather_api_key = os.getenv("OPENWEATHER_API_KEY")
 
             if openai_key:
-                self.openai_client = openai.OpenAI(api_key=openai_key)
+                openai.api_key = openai_key
+                self.openai_client = openai
             if google_maps_key:
                 self.gmaps = googlemaps.Client(key=google_maps_key)
 
@@ -79,7 +80,7 @@ Once set up, I'll be able to create amazing travel plans just for you! ✈️"""
             Format as a clear, readable list with proper line breaks.
             """
 
-            response = self.openai_client.chat.completions.create(
+            response = self.openai_client.ChatCompletion.create(
                 model="gpt-3.5-turbo",
                 messages=[{"role": "user", "content": prompt}],
                 max_tokens=1000
@@ -135,7 +136,7 @@ Once set up, I'll be able to create amazing travel plans just for you! ✈️"""
             Format as Day 1, Day 2, etc. with clear sections and proper line breaks.
             """
 
-            response = self.openai_client.chat.completions.create(
+            response = self.openai_client.ChatCompletion.create(
                 model="gpt-3.5-turbo",
                 messages=[{"role": "user", "content": prompt}],
                 max_tokens=1500
@@ -167,7 +168,7 @@ Once set up, I'll be able to create amazing travel plans just for you! ✈️"""
             Tailor recommendations to the weather and destination.
             """
 
-            response = self.openai_client.chat.completions.create(
+            response = self.openai_client.ChatCompletion.create(
                 model="gpt-3.5-turbo",
                 messages=[{"role": "user", "content": prompt}],
                 max_tokens=800
@@ -195,7 +196,7 @@ Once set up, I'll be able to create amazing travel plans just for you! ✈️"""
             Note: This is general information and travelers should verify with official sources.
             """
 
-            response = self.openai_client.chat.completions.create(
+            response = self.openai_client.ChatCompletion.create(
                 model="gpt-3.5-turbo",
                 messages=[{"role": "user", "content": prompt}],
                 max_tokens=600
