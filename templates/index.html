@@ -14,28 +14,29 @@
         
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f8f9fa;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
             min-height: 100vh;
-            color: #333;
+            color: #2d3748;
         }
         
         .navbar {
-            background: white;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             padding: 1rem 2rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid #e9ecef;
+            border-bottom: none;
         }
         
         .logo {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             font-weight: bold;
-            color: #667eea;
+            color: white;
             display: flex;
             align-items: center;
             gap: 8px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         
         .nav-menu {
@@ -46,18 +47,23 @@
         
         .nav-menu a {
             text-decoration: none;
-            color: #666;
+            color: rgba(255,255,255,0.9);
             font-weight: 500;
-            transition: color 0.3s;
+            transition: all 0.3s;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
         }
         
         .nav-menu a:hover {
-            color: #667eea;
+            color: white;
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
         }
         
         .nav-menu a.active {
-            color: #667eea;
+            color: white;
             font-weight: 600;
+            background: rgba(255,255,255,0.2);
         }
         
         .container {
@@ -74,26 +80,33 @@
         
         .sidebar {
             width: 400px;
-            background: white;
-            border-radius: 15px;
+            background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 20px;
             padding: 2rem;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.15);
             height: fit-content;
+            border: 2px solid rgba(255,255,255,0.8);
         }
         
         .content {
             flex: 1;
-            background: white;
-            border-radius: 15px;
+            background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 20px;
             padding: 2rem;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.15);
+            border: 2px solid rgba(255,255,255,0.8);
         }
         
         .page-title {
             font-size: 2rem;
-            color: #333;
+            color: #4c51bf;
             margin-bottom: 2rem;
             font-weight: 600;
+            text-align: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
         .form-group {
@@ -113,19 +126,21 @@
         .form-group textarea {
             width: 100%;
             padding: 0.75rem;
-            border: 2px solid #e9ecef;
-            border-radius: 8px;
+            border: 2px solid #fbb6ce;
+            border-radius: 12px;
             font-size: 0.9rem;
-            transition: border-color 0.3s;
-            background: #f8f9fa;
+            transition: all 0.3s;
+            background: linear-gradient(145deg, #fff5f7 0%, #ffffff 100%);
         }
         
         .form-group input:focus, 
         .form-group select:focus, 
         .form-group textarea:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: #ed64a6;
             background: white;
+            box-shadow: 0 0 0 3px rgba(237, 100, 166, 0.1);
+            transform: translateY(-1px);
         }
         
         .form-group textarea {
@@ -165,37 +180,42 @@
         }
         
         .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
             color: white;
             border: none;
             padding: 1rem 2rem;
-            border-radius: 8px;
+            border-radius: 12px;
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
             width: 100%;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(255, 107, 157, 0.4);
         }
         
         .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 107, 157, 0.6);
+            background: linear-gradient(135deg, #ff7bb0 0%, #d45b7a 100%);
         }
         
         .btn-secondary {
-            background: #6c757d;
+            background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
             color: white;
             border: none;
             padding: 0.75rem 1.5rem;
-            border-radius: 6px;
+            border-radius: 10px;
             font-size: 0.9rem;
             font-weight: 500;
             cursor: pointer;
-            transition: background 0.2s;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
         }
         
         .btn-secondary:hover {
-            background: #5a6268;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(78, 205, 196, 0.5);
+            background: linear-gradient(135deg, #5ee3db 0%, #55b5a5 100%);
         }
         
         .api-status {
@@ -256,19 +276,28 @@
             padding: 1rem 1.5rem;
             cursor: pointer;
             border: none;
-            background: none;
+            background: linear-gradient(145deg, #ffeaa7 0%, #fdcb6e 100%);
             font-size: 0.95rem;
             font-weight: 500;
-            color: #666;
+            color: #2d3748;
             border-bottom: 3px solid transparent;
             transition: all 0.3s;
-            border-radius: 8px 8px 0 0;
+            border-radius: 12px 12px 0 0;
+            margin-right: 0.5rem;
+            box-shadow: 0 2px 8px rgba(253, 203, 110, 0.3);
         }
         
         .tab.active {
-            color: #667eea;
-            border-bottom-color: #667eea;
-            background: #f8f9fa;
+            color: white;
+            border-bottom-color: #ff6b9d;
+            background: linear-gradient(145deg, #ff6b9d 0%, #c44569 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 107, 157, 0.4);
+        }
+        
+        .tab:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(253, 203, 110, 0.5);
         }
         
         .tab-content {
@@ -280,13 +309,15 @@
         }
         
         .result-box {
-            background: #f8f9fa;
-            border-radius: 10px;
+            background: linear-gradient(145deg, #a8edea 0%, #fed6e3 100%);
+            border-radius: 15px;
             padding: 1.5rem;
             margin-top: 1.5rem;
-            border-left: 4px solid #667eea;
+            border-left: 4px solid #ff6b9d;
             white-space: pre-wrap;
             line-height: 1.6;
+            box-shadow: 0 4px 15px rgba(168, 237, 234, 0.3);
+            border: 2px solid rgba(255,255,255,0.5);
         }
         
         .weather-grid {
@@ -297,18 +328,24 @@
         }
         
         .weather-card {
-            background: white;
+            background: linear-gradient(145deg, #ffeaa7 0%, #fab1a0 100%);
             padding: 1.5rem;
-            border-radius: 10px;
+            border-radius: 15px;
             text-align: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            border: 1px solid #e9ecef;
+            box-shadow: 0 4px 15px rgba(255, 234, 167, 0.4);
+            border: 2px solid rgba(255,255,255,0.6);
+            transition: transform 0.3s;
+        }
+        
+        .weather-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 234, 167, 0.6);
         }
         
         .weather-value {
             font-size: 1.5rem;
             font-weight: bold;
-            color: #667eea;
+            color: #2d3748;
         }
         
         .weather-label {
@@ -339,31 +376,36 @@
         }
         
         .info-box {
-            background: #e7f3ff;
-            border: 1px solid #b3d7ff;
-            border-radius: 8px;
+            background: linear-gradient(145deg, #74b9ff 0%, #0984e3 100%);
+            border: 2px solid rgba(255,255,255,0.5);
+            border-radius: 12px;
             padding: 1rem;
             margin: 1.5rem 0;
             font-size: 0.9rem;
+            color: white;
+            box-shadow: 0 4px 15px rgba(116, 185, 255, 0.3);
         }
         
         .warning-box {
-            background: #fff3cd;
-            border: 1px solid #ffeaa7;
-            border-radius: 8px;
+            background: linear-gradient(145deg, #fdcb6e 0%, #e17055 100%);
+            border: 2px solid rgba(255,255,255,0.5);
+            border-radius: 12px;
             padding: 1rem;
             margin: 1.5rem 0;
             font-size: 0.9rem;
+            color: white;
+            box-shadow: 0 4px 15px rgba(253, 203, 110, 0.3);
         }
         
         .footer {
-            background: white;
-            border-top: 1px solid #e9ecef;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-top: none;
             padding: 2rem;
             text-align: center;
-            color: #666;
+            color: white;
             font-size: 0.9rem;
             margin-top: 3rem;
+            box-shadow: 0 -4px 20px rgba(102, 126, 234, 0.3);
         }
         
         .footer-links {
@@ -374,13 +416,17 @@
         }
         
         .footer-links a {
-            color: #666;
+            color: rgba(255,255,255,0.9);
             text-decoration: none;
-            transition: color 0.3s;
+            transition: all 0.3s;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
         }
         
         .footer-links a:hover {
-            color: #667eea;
+            color: white;
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
         }
         
         @media (max-width: 768px) {
