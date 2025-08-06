@@ -45,12 +45,16 @@ class TravelPlanner:
             return "OpenAI API not configured. Please add your API key."
         
         try:
+            location_info = departure_city
+            if hasattr(st.session_state, 'zip_code') and st.session_state.get('zip_code'):
+                location_info = f"{departure_city} (Zip: {st.session_state.zip_code})"
+            
             prompt = f"""
             Suggest 3-5 travel destinations based on the following preferences:
             - Budget: {budget}
             - Interests: {', '.join(interests)}
             - Preferred climate: {climate}
-            - Departing from: {departure_city}
+            - Departing from: {location_info}
             
             For each destination, provide:
             1. Destination name and country
@@ -205,6 +209,12 @@ def main():
     
     departure_city = st.sidebar.text_input("Departure City", "New York")
     
+    zip_code = st.sidebar.text_input(
+        "📍 Your Zip Code (Optional)", 
+        placeholder="12345",
+        help="Enter your zip code for more accurate location-based recommendations"
+    )
+    
     travel_dates = st.sidebar.date_input(
         "Travel Dates",
         value=(datetime.now().date(), datetime.now().date() + timedelta(days=7)),
@@ -234,6 +244,10 @@ def main():
     tab1, tab2, tab3, tab4, tab5 = st.tabs(["🎯 Destinations", "🌤️ Weather", "📅 Itinerary", "🎒 Packing", "📋 Visa Info"])
     
     if st.sidebar.button("🚀 Plan My Trip", type="primary"):
+        # Store zip code in session state
+        if zip_code:
+            st.session_state['zip_code'] = zip_code
+            
         with st.spinner("Planning your amazing trip..."):
             
             # Tab 1: Destination Suggestions
