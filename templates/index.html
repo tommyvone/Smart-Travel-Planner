@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,14 +10,14 @@
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
             min-height: 100vh;
             color: #2d3748;
         }
-        
+
         .navbar {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             padding: 1rem 2rem;
@@ -28,7 +27,7 @@
             align-items: center;
             border-bottom: none;
         }
-        
+
         .logo {
             font-size: 1.8rem;
             font-weight: bold;
@@ -38,13 +37,13 @@
             gap: 8px;
             text-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
-        
+
         .nav-menu {
             display: flex;
             gap: 2rem;
             list-style: none;
         }
-        
+
         .nav-menu a {
             text-decoration: none;
             color: rgba(255,255,255,0.9);
@@ -53,31 +52,31 @@
             padding: 0.5rem 1rem;
             border-radius: 20px;
         }
-        
+
         .nav-menu a:hover {
             color: white;
             background: rgba(255,255,255,0.2);
             transform: translateY(-2px);
         }
-        
+
         .nav-menu a.active {
             color: white;
             font-weight: 600;
             background: rgba(255,255,255,0.2);
         }
-        
+
         .container {
             max-width: 1200px;
             margin: 2rem auto;
             padding: 0 2rem;
         }
-        
+
         .main-content {
             display: flex;
             gap: 2rem;
             min-height: calc(100vh - 120px);
         }
-        
+
         .sidebar {
             width: 400px;
             background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
@@ -87,7 +86,7 @@
             height: fit-content;
             border: 2px solid rgba(255,255,255,0.8);
         }
-        
+
         .content {
             flex: 1;
             background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
@@ -96,7 +95,7 @@
             box-shadow: 0 8px 32px rgba(102, 126, 234, 0.15);
             border: 2px solid rgba(255,255,255,0.8);
         }
-        
+
         .page-title {
             font-size: 2rem;
             color: #4c51bf;
@@ -108,11 +107,11 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-        
+
         .form-group {
             margin-bottom: 1.5rem;
         }
-        
+
         .form-group label {
             display: block;
             margin-bottom: 0.5rem;
@@ -120,7 +119,7 @@
             color: #333;
             font-size: 0.9rem;
         }
-        
+
         .form-group input, 
         .form-group select, 
         .form-group textarea {
@@ -132,7 +131,7 @@
             transition: all 0.3s;
             background: linear-gradient(145deg, #fff5f7 0%, #ffffff 100%);
         }
-        
+
         .form-group input:focus, 
         .form-group select:focus, 
         .form-group textarea:focus {
@@ -142,19 +141,19 @@
             box-shadow: 0 0 0 3px rgba(237, 100, 166, 0.1);
             transform: translateY(-1px);
         }
-        
+
         .form-group textarea {
             resize: vertical;
             min-height: 100px;
         }
-        
+
         .interests-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 0.5rem;
             margin-top: 0.5rem;
         }
-        
+
         .interest-item {
             display: flex;
             align-items: center;
@@ -163,22 +162,22 @@
             border-radius: 6px;
             transition: background 0.2s;
         }
-        
+
         .interest-item:hover {
             background: #f0f0f0;
         }
-        
+
         .interest-item input[type="checkbox"] {
             width: auto;
             margin: 0;
         }
-        
+
         .interest-item label {
             margin: 0;
             font-weight: 400;
             cursor: pointer;
         }
-        
+
         .btn-primary {
             background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
             color: white;
@@ -192,13 +191,13 @@
             transition: all 0.3s;
             box-shadow: 0 4px 15px rgba(255, 107, 157, 0.4);
         }
-        
+
         .btn-primary:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 25px rgba(255, 107, 157, 0.6);
             background: linear-gradient(135deg, #ff7bb0 0%, #d45b7a 100%);
         }
-        
+
         .btn-secondary {
             background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
             color: white;
@@ -211,13 +210,13 @@
             transition: all 0.3s;
             box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
         }
-        
+
         .btn-secondary:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(78, 205, 196, 0.5);
             background: linear-gradient(135deg, #5ee3db 0%, #55b5a5 100%);
         }
-        
+
         .api-status {
             background: #f8f9fa;
             border: 1px solid #e9ecef;
@@ -225,53 +224,53 @@
             padding: 1.5rem;
             margin-bottom: 2rem;
         }
-        
+
         .api-status h3 {
             margin-bottom: 1rem;
             color: #333;
             font-size: 1.1rem;
         }
-        
+
         .status-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 0.75rem;
         }
-        
+
         .status-item:last-child {
             margin-bottom: 0;
         }
-        
+
         .status-badge {
             padding: 0.25rem 0.75rem;
             border-radius: 20px;
             font-size: 0.75rem;
             font-weight: 600;
         }
-        
+
         .status-ready {
             background: #d4edda;
             color: #155724;
         }
-        
+
         .status-missing {
             background: #f8d7da;
             color: #721c24;
         }
-        
+
         .status-optional {
             background: #fff3cd;
             color: #856404;
         }
-        
+
         .tabs {
             display: flex;
             border-bottom: 2px solid #e9ecef;
             margin-bottom: 2rem;
             gap: 1rem;
         }
-        
+
         .tab {
             padding: 1rem 1.5rem;
             cursor: pointer;
@@ -286,7 +285,7 @@
             margin-right: 0.5rem;
             box-shadow: 0 2px 8px rgba(253, 203, 110, 0.3);
         }
-        
+
         .tab.active {
             color: white;
             border-bottom-color: #ff6b9d;
@@ -294,20 +293,20 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 15px rgba(255, 107, 157, 0.4);
         }
-        
+
         .tab:hover {
             transform: translateY(-1px);
             box-shadow: 0 4px 12px rgba(253, 203, 110, 0.5);
         }
-        
+
         .tab-content {
             display: none;
         }
-        
+
         .tab-content.active {
             display: block;
         }
-        
+
         .result-box {
             background: linear-gradient(145deg, #a8edea 0%, #fed6e3 100%);
             border-radius: 15px;
@@ -319,14 +318,14 @@
             box-shadow: 0 4px 15px rgba(168, 237, 234, 0.3);
             border: 2px solid rgba(255,255,255,0.5);
         }
-        
+
         .weather-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 1rem;
             margin-top: 1.5rem;
         }
-        
+
         .weather-card {
             background: linear-gradient(145deg, #ffeaa7 0%, #fab1a0 100%);
             padding: 1.5rem;
@@ -336,30 +335,30 @@
             border: 2px solid rgba(255,255,255,0.6);
             transition: transform 0.3s;
         }
-        
+
         .weather-card:hover {
             transform: translateY(-3px);
             box-shadow: 0 6px 20px rgba(255, 234, 167, 0.6);
         }
-        
+
         .weather-value {
             font-size: 1.5rem;
             font-weight: bold;
             color: #2d3748;
         }
-        
+
         .weather-label {
             color: #666;
             font-size: 0.85rem;
             margin-top: 0.5rem;
         }
-        
+
         .loading {
             text-align: center;
             padding: 3rem;
             color: #666;
         }
-        
+
         .spinner {
             border: 3px solid #f3f3f3;
             border-top: 3px solid #667eea;
@@ -369,12 +368,12 @@
             animation: spin 1s linear infinite;
             margin: 0 auto 1rem;
         }
-        
+
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-        
+
         .info-box {
             background: linear-gradient(145deg, #74b9ff 0%, #0984e3 100%);
             border: 2px solid rgba(255,255,255,0.5);
@@ -385,7 +384,7 @@
             color: white;
             box-shadow: 0 4px 15px rgba(116, 185, 255, 0.3);
         }
-        
+
         .warning-box {
             background: linear-gradient(145deg, #fdcb6e 0%, #e17055 100%);
             border: 2px solid rgba(255,255,255,0.5);
@@ -396,7 +395,7 @@
             color: white;
             box-shadow: 0 4px 15px rgba(253, 203, 110, 0.3);
         }
-        
+
         .footer {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border-top: none;
@@ -407,14 +406,14 @@
             margin-top: 3rem;
             box-shadow: 0 -4px 20px rgba(102, 126, 234, 0.3);
         }
-        
+
         .footer-links {
             display: flex;
             justify-content: center;
             gap: 2rem;
             margin-bottom: 1rem;
         }
-        
+
         .footer-links a {
             color: rgba(255,255,255,0.9);
             text-decoration: none;
@@ -422,55 +421,55 @@
             padding: 0.5rem 1rem;
             border-radius: 20px;
         }
-        
+
         .footer-links a:hover {
             color: white;
             background: rgba(255,255,255,0.2);
             transform: translateY(-2px);
         }
-        
+
         @media (max-width: 768px) {
             .main-content {
                 flex-direction: column;
                 gap: 1rem;
             }
-            
+
             .sidebar {
                 width: 100%;
                 padding: 1.5rem;
             }
-            
+
             .content {
                 padding: 1.5rem;
             }
-            
+
             .nav-menu {
                 display: none;
             }
-            
+
             .navbar {
                 padding: 1rem;
             }
-            
+
             .logo {
                 font-size: 1.4rem;
             }
-            
+
             .container {
                 padding: 0 1rem;
                 margin: 1rem auto;
             }
-            
+
             .page-title {
                 font-size: 1.5rem;
                 margin-bottom: 1rem;
             }
-            
+
             .tabs {
                 flex-wrap: wrap;
                 gap: 0.5rem;
             }
-            
+
             .tab {
                 font-size: 0.8rem;
                 padding: 0.75rem 1rem;
@@ -480,88 +479,88 @@
                 min-width: 120px;
                 text-align: center;
             }
-            
+
             .weather-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
-            
+
             .form-group {
                 margin-bottom: 1rem;
             }
-            
+
             .form-group input, 
             .form-group select, 
             .form-group textarea {
                 font-size: 16px; /* Prevents zoom on iOS */
                 padding: 0.75rem;
             }
-            
+
             .btn-primary, .btn-secondary {
                 padding: 1rem;
                 font-size: 1rem;
                 width: 100%;
                 margin-top: 0.5rem;
             }
-            
+
             .result-box {
                 padding: 1rem;
                 font-size: 0.9rem;
             }
-            
+
             .footer-links {
                 flex-direction: column;
                 gap: 1rem;
             }
-            
+
             .footer {
                 padding: 1.5rem 1rem;
             }
         }
-        
+
         @media (max-width: 480px) {
             .container {
                 padding: 0 0.5rem;
             }
-            
+
             .sidebar, .content {
                 padding: 1rem;
             }
-            
+
             .navbar {
                 padding: 0.75rem;
             }
-            
+
             .logo {
                 font-size: 1.2rem;
             }
-            
+
             .page-title {
                 font-size: 1.3rem;
             }
-            
+
             .tabs {
                 margin-bottom: 1rem;
             }
-            
+
             .tab {
                 font-size: 0.75rem;
                 padding: 0.6rem 0.5rem;
                 min-width: 100px;
             }
-            
+
             .weather-grid {
                 grid-template-columns: 1fr;
                 gap: 0.5rem;
             }
-            
+
             .weather-card {
                 padding: 1rem;
             }
-            
+
             .form-group label {
                 font-size: 0.85rem;
             }
-            
+
             .result-box {
                 font-size: 0.85rem;
                 line-height: 1.5;
@@ -591,46 +590,46 @@
                         <label for="budget">Budget</label>
                         <input type="text" id="budget" name="budget" placeholder="Enter your budget (e.g., $2000)" required>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="interests">Interests</label>
                         <textarea id="interests" name="interests" placeholder="Enter your interests (e.g., beaches, museums, local food, nightlife)"></textarea>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="preferred_destinations">Preferred Destinations</label>
                         <textarea id="preferred_destinations" name="preferred_destinations" placeholder="Enter preferred destinations or leave blank for suggestions"></textarea>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="specific_requirements">Specific Requirements</label>
                         <textarea id="specific_requirements" name="specific_requirements" placeholder="Enter any specific requirements or preferences"></textarea>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="travel_dates">Travel Dates</label>
                         <input type="text" id="travel_dates" name="travel_dates" placeholder="Select travel dates (e.g., Dec 15-22, 2024)">
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="departure_city">🏠 Departure City</label>
                         <input type="text" id="departure_city" name="departure_city" value="New York" required>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="nationality">🌍 Your Nationality</label>
                         <input type="text" id="nationality" name="nationality" value="American" required>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="trip_days">📅 Trip Duration (days)</label>
                         <input type="number" id="trip_days" name="trip_days" value="7" min="1" max="30">
                     </div>
-                    
+
                     <button type="submit" class="btn-primary">Submit</button>
                 </form>
             </div>
-            
+
             <div class="content">
                 <div class="tabs">
                     <button class="tab active" onclick="showTab('destinations')">🎯 Destinations</button>
@@ -639,13 +638,13 @@
                     <button class="tab" onclick="showTab('packing')">🎒 Packing</button>
                     <button class="tab" onclick="showTab('visa')">📋 Visa Info</button>
                 </div>
-                
+
                 <div id="destinations" class="tab-content active">
                     <h2>🎯 Recommended Destinations</h2>
                     <p>Fill in your preferences and click "Submit" to get personalized destination recommendations tailored to your budget, interests, and travel style.</p>
                     <div id="destinationsResult"></div>
                 </div>
-                
+
                 <div id="weather" class="tab-content">
                     <h2>🌤️ Weather Forecast</h2>
                     <div class="form-group">
@@ -655,7 +654,7 @@
                     </div>
                     <div id="weatherResult"></div>
                 </div>
-                
+
                 <div id="itinerary" class="tab-content">
                     <h2>📅 Daily Itinerary</h2>
                     <div class="form-group">
@@ -665,7 +664,7 @@
                     </div>
                     <div id="itineraryResult"></div>
                 </div>
-                
+
                 <div id="packing" class="tab-content">
                     <h2>🎒 Packing List</h2>
                     <div class="form-group">
@@ -675,7 +674,7 @@
                     </div>
                     <div id="packingResult"></div>
                 </div>
-                
+
                 <div id="visa" class="tab-content">
                     <h2>📋 Visa Requirements</h2>
                     <div class="form-group">
@@ -702,41 +701,41 @@
 
     <script>
         let currentWeather = {};
-        
+
         function showTab(tabName) {
             // Hide all tab contents
             const contents = document.querySelectorAll('.tab-content');
             contents.forEach(content => content.classList.remove('active'));
-            
+
             // Remove active class from all tabs
             const tabs = document.querySelectorAll('.tab');
             tabs.forEach(tab => tab.classList.remove('active'));
-            
+
             // Show selected tab content
             document.getElementById(tabName).classList.add('active');
             event.target.classList.add('active');
         }
-        
+
         function getFormData() {
             const form = document.getElementById('travelForm');
             const formData = new FormData(form);
             const data = {};
-            
+
             // Get form fields
             for (let [key, value] of formData.entries()) {
                 data[key] = value;
             }
-            
+
             // Convert interests to array format
             if (data.interests) {
                 data.interests = data.interests.split(',').map(interest => interest.trim());
             } else {
                 data.interests = [];
             }
-            
+
             return data;
         }
-        
+
         function showLoading(elementId) {
             document.getElementById(elementId).innerHTML = `
                 <div class="loading">
@@ -745,13 +744,13 @@
                 </div>
             `;
         }
-        
+
         document.getElementById('travelForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            
+
             const data = getFormData();
             showLoading('destinationsResult');
-            
+
             try {
                 const response = await fetch('/plan', {
                     method: 'POST',
@@ -760,9 +759,9 @@
                     },
                     body: JSON.stringify(data)
                 });
-                
+
                 const result = await response.json();
-                
+
                 if (result.success) {
                     document.getElementById('destinationsResult').innerHTML = `
                         <div class="result-box">${result.destinations}</div>
@@ -778,16 +777,16 @@
                 `;
             }
         });
-        
+
         async function getWeather() {
             const city = document.getElementById('weatherCity').value;
             if (!city) {
                 alert('Please enter a city name');
                 return;
             }
-            
+
             showLoading('weatherResult');
-            
+
             try {
                 const response = await fetch('/weather', {
                     method: 'POST',
@@ -796,9 +795,9 @@
                     },
                     body: JSON.stringify({city: city})
                 });
-                
+
                 const result = await response.json();
-                
+
                 if (result.error) {
                     document.getElementById('weatherResult').innerHTML = `
                         <div class="result-box">Error: ${result.error}</div>
@@ -832,17 +831,17 @@
                 `;
             }
         }
-        
+
         async function getItinerary() {
             const destination = document.getElementById('itineraryCity').value;
             if (!destination) {
                 alert('Please enter a destination');
                 return;
             }
-            
+
             showLoading('itineraryResult');
             const data = getFormData();
-            
+
             try {
                 const response = await fetch('/itinerary', {
                     method: 'POST',
@@ -855,9 +854,9 @@
                         days: parseInt(data.trip_days)
                     })
                 });
-                
+
                 const result = await response.json();
-                
+
                 if (result.error) {
                     document.getElementById('itineraryResult').innerHTML = `
                         <div class="result-box">Error: ${result.error}</div>
@@ -873,17 +872,17 @@
                 `;
             }
         }
-        
+
         async function getPackingList() {
             const destination = document.getElementById('packingCity').value;
             if (!destination) {
                 alert('Please enter a destination');
                 return;
             }
-            
+
             showLoading('packingResult');
             const data = getFormData();
-            
+
             try {
                 const response = await fetch('/packing', {
                     method: 'POST',
@@ -896,9 +895,9 @@
                         days: parseInt(data.trip_days)
                     })
                 });
-                
+
                 const result = await response.json();
-                
+
                 if (result.error) {
                     document.getElementById('packingResult').innerHTML = `
                         <div class="result-box">Error: ${result.error}</div>
@@ -914,17 +913,17 @@
                 `;
             }
         }
-        
+
         async function getVisaInfo() {
             const destination = document.getElementById('visaCountry').value;
             if (!destination) {
                 alert('Please enter a destination country');
                 return;
             }
-            
+
             showLoading('visaResult');
             const data = getFormData();
-            
+
             try {
                 const response = await fetch('/visa', {
                     method: 'POST',
@@ -936,9 +935,9 @@
                         nationality: data.nationality
                     })
                 });
-                
+
                 const result = await response.json();
-                
+
                 if (result.error) {
                     document.getElementById('visaResult').innerHTML = `
                         <div class="result-box">Error: ${result.error}</div>
