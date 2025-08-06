@@ -32,6 +32,8 @@ class TravelPlanner:
 
             if openai_key and len(openai_key) > 10:  # Basic validation
                 try:
+                    # Initialize OpenAI client with proper configuration
+                    openai.api_key = openai_key
                     self.openai_client = openai.OpenAI(api_key=openai_key)
                     print("✅ OpenAI client initialized successfully")
 
@@ -327,4 +329,4 @@ def get_visa_info():
     return jsonify({'visa_info': visa_info})
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=8080, debug=True)
