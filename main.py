@@ -23,21 +23,49 @@ class TravelPlanner:
             google_maps_key = os.getenv("GOOGLE_MAPS_API_KEY")
             self.weather_api_key = os.getenv("OPENWEATHER_API_KEY")
 
+            print(f"🔍 Debugging OpenAI API key:")
+            print(f"   - Key exists: {'Yes' if openai_key else 'No'}")
             if openai_key:
-                self.openai_client = openai.OpenAI(api_key=openai_key)
-                print("✅ OpenAI client initialized successfully")
+                print(f"   - Key length: {len(openai_key)}")
+                print(f"   - Key starts with 'sk-': {'Yes' if openai_key.startswith('sk-') else 'No'}")
+                print(f"   - Key preview: {openai_key[:10]}...{openai_key[-4:] if len(openai_key) > 14 else ''}")
+
+            if openai_key and len(openai_key) > 10:  # Basic validation
+                try:
+                    self.openai_client = openai.OpenAI(api_key=openai_key)
+                    print("✅ OpenAI client initialized successfully")
+
+                    # Test the client with a simple request
+                    try:
+                        test_response = self.openai_client.chat.completions.create(
+                            model="gpt-3.5-turbo",
+                            messages=[{"role": "user", "content": "Hello"}],
+                            max_tokens=5
+                        )
+                        print("✅ OpenAI API test successful")
+                    except Exception as test_error:
+                        print(f"⚠️ OpenAI API test failed: {test_error}")
+
+                except Exception as openai_error:
+                    print(f"❌ OpenAI client failed to initialize: {openai_error}")
+                    self.openai_client = None
             else:
-                print("❌ OpenAI API key not found")
-            
+                print("❌ OpenAI API key not found or invalid")
+                if not openai_key:
+                    print("   - Check that you have a secret named exactly 'OPENAI_API_KEY'")
+                elif len(openai_key) <= 10:
+                    print(f"   - Key too short ({len(openai_key)} characters)")
+
             if google_maps_key:
                 try:
                     self.gmaps = googlemaps.Client(key=google_maps_key)
                     print("✅ Google Maps client initialized successfully")
                 except Exception as gmaps_error:
-                    print(f"⚠️ Google Maps client failed to initialize: {gmaps_error}")
+                    print(f"⚠️ Google Maps client failed ({type(gmaps_error).__name__}): {gmaps_error}")
+                    print("   - Continuing without Google Maps (this won't affect OpenAI functionality)")
                     self.gmaps = None
             else:
-                print("❌ Google Maps API key not found (optional)")
+                print("ℹ️  Google Maps API key not found (optional)")
 
             if self.weather_api_key:
                 print("✅ Weather API key found")
