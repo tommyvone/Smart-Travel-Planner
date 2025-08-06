@@ -25,8 +25,24 @@ class TravelPlanner:
 
             if openai_key:
                 self.openai_client = openai.OpenAI(api_key=openai_key)
+                print("✅ OpenAI client initialized successfully")
+            else:
+                print("❌ OpenAI API key not found")
+            
             if google_maps_key:
-                self.gmaps = googlemaps.Client(key=google_maps_key)
+                try:
+                    self.gmaps = googlemaps.Client(key=google_maps_key)
+                    print("✅ Google Maps client initialized successfully")
+                except Exception as gmaps_error:
+                    print(f"⚠️ Google Maps client failed to initialize: {gmaps_error}")
+                    self.gmaps = None
+            else:
+                print("❌ Google Maps API key not found (optional)")
+
+            if self.weather_api_key:
+                print("✅ Weather API key found")
+            else:
+                print("❌ Weather API key not found (optional)")
 
         except Exception as e:
             print(f"Error setting up APIs: {e}")
