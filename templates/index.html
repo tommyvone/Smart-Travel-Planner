@@ -1,0 +1,717 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌍 AI Travel Planner</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .main-content {
+            display: flex;
+            min-height: 600px;
+        }
+        
+        .sidebar {
+            width: 350px;
+            background: #f8f9fa;
+            padding: 30px;
+            border-right: 1px solid #e9ecef;
+        }
+        
+        .content {
+            flex: 1;
+            padding: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .interests-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .interest-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .interest-item input[type="checkbox"] {
+            width: auto;
+        }
+        
+        .btn {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.2s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .api-status {
+            background: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #e9ecef;
+        }
+        
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .status-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .status-ready {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-missing {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .status-optional {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #e9ecef;
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            padding: 15px 25px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-size: 16px;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .tab.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .result-box {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            border-left: 4px solid #667eea;
+            white-space: pre-wrap;
+            line-height: 1.6;
+        }
+        
+        .weather-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .weather-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .weather-value {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .weather-label {
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .info-box {
+            background: #e7f3ff;
+            border-left: 4px solid #007bff;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .warning-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌍 AI Travel Planner</h1>
+            <p>✈️ Plan Your Perfect Adventure with AI-powered recommendations!</p>
+        </div>
+        
+        <div class="main-content">
+            <div class="sidebar">
+                <div class="api-status">
+                    <h3>🔧 API Status</h3>
+                    <div class="status-item">
+                        <span>OpenAI API</span>
+                        <span class="status-badge {% if api_status.openai %}status-ready{% else %}status-missing{% endif %}">
+                            {% if api_status.openai %}✅ Ready{% else %}❌ Missing{% endif %}
+                        </span>
+                    </div>
+                    <div class="status-item">
+                        <span>Weather API</span>
+                        <span class="status-badge {% if api_status.weather %}status-ready{% else %}status-missing{% endif %}">
+                            {% if api_status.weather %}✅ Ready{% else %}❌ Missing{% endif %}
+                        </span>
+                    </div>
+                    <div class="status-item">
+                        <span>Google Maps</span>
+                        <span class="status-badge {% if api_status.google_maps %}status-ready{% else %}status-optional{% endif %}">
+                            {% if api_status.google_maps %}✅ Ready{% else %}⚠️ Optional{% endif %}
+                        </span>
+                    </div>
+                </div>
+                
+                <form id="travelForm">
+                    <h3>📍 Location Details</h3>
+                    <div class="form-group">
+                        <label for="departure_city">🏠 Departure City</label>
+                        <input type="text" id="departure_city" name="departure_city" value="New York" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="zip_code">📮 Your Zip Code (Optional)</label>
+                        <input type="text" id="zip_code" name="zip_code" placeholder="e.g. 10001">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="nationality">🌍 Your Nationality</label>
+                        <input type="text" id="nationality" name="nationality" value="American" required>
+                    </div>
+                    
+                    <h3>💰 Budget & Preferences</h3>
+                    <div class="form-group">
+                        <label for="budget">💵 Budget Range</label>
+                        <select id="budget" name="budget">
+                            <option value="Budget ($0-$1000)">Budget ($0-$1000)</option>
+                            <option value="Mid-range ($1000-$3000)" selected>Mid-range ($1000-$3000)</option>
+                            <option value="Luxury ($3000+)">Luxury ($3000+)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="trip_days">📅 Trip Duration (days)</label>
+                        <input type="number" id="trip_days" name="trip_days" value="7" min="1" max="30">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="climate">🌡️ Preferred Climate</label>
+                        <select id="climate" name="climate">
+                            <option value="☀️ Warm">☀️ Warm</option>
+                            <option value="❄️ Cool">❄️ Cool</option>
+                            <option value="🌴 Tropical">🌴 Tropical</option>
+                            <option value="🌤️ Temperate">🌤️ Temperate</option>
+                            <option value="🤷 No preference" selected>🤷 No preference</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>🎪 What interests you?</label>
+                        <div class="interests-grid">
+                            <div class="interest-item">
+                                <input type="checkbox" id="beaches" name="interests" value="🏖️ Beaches" checked>
+                                <label for="beaches">🏖️ Beaches</label>
+                            </div>
+                            <div class="interest-item">
+                                <input type="checkbox" id="museums" name="interests" value="🏛️ Museums">
+                                <label for="museums">🏛️ Museums</label>
+                            </div>
+                            <div class="interest-item">
+                                <input type="checkbox" id="hiking" name="interests" value="🥾 Hiking">
+                                <label for="hiking">🥾 Hiking</label>
+                            </div>
+                            <div class="interest-item">
+                                <input type="checkbox" id="food" name="interests" value="🍕 Food" checked>
+                                <label for="food">🍕 Food</label>
+                            </div>
+                            <div class="interest-item">
+                                <input type="checkbox" id="nightlife" name="interests" value="🌃 Nightlife">
+                                <label for="nightlife">🌃 Nightlife</label>
+                            </div>
+                            <div class="interest-item">
+                                <input type="checkbox" id="history" name="interests" value="📚 History">
+                                <label for="history">📚 History</label>
+                            </div>
+                            <div class="interest-item">
+                                <input type="checkbox" id="shopping" name="interests" value="🛍️ Shopping">
+                                <label for="shopping">🛍️ Shopping</label>
+                            </div>
+                            <div class="interest-item">
+                                <input type="checkbox" id="adventure" name="interests" value="🏄 Adventure Sports">
+                                <label for="adventure">🏄 Adventure</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn">🚀 Plan My Amazing Trip!</button>
+                </form>
+                
+                {% if not api_status.openai or not api_status.weather %}
+                <div class="info-box">
+                    <strong>💡 Need API Keys?</strong><br>
+                    Add your keys to Replit Secrets to unlock all features!
+                </div>
+                {% endif %}
+            </div>
+            
+            <div class="content">
+                <div class="tabs">
+                    <button class="tab active" onclick="showTab('destinations')">🎯 Destinations</button>
+                    <button class="tab" onclick="showTab('weather')">🌤️ Weather</button>
+                    <button class="tab" onclick="showTab('itinerary')">📅 Itinerary</button>
+                    <button class="tab" onclick="showTab('packing')">🎒 Packing</button>
+                    <button class="tab" onclick="showTab('visa')">📋 Visa Info</button>
+                </div>
+                
+                <div id="destinations" class="tab-content active">
+                    <h2>🎯 Recommended Destinations</h2>
+                    <p>Fill in your preferences and click "Plan My Amazing Trip!" to get personalized destination recommendations.</p>
+                    <div id="destinationsResult"></div>
+                </div>
+                
+                <div id="weather" class="tab-content">
+                    <h2>🌤️ Weather Forecast</h2>
+                    <div class="form-group">
+                        <label for="weatherCity">🏙️ Enter destination city:</label>
+                        <input type="text" id="weatherCity" placeholder="e.g. Paris, Tokyo, New York">
+                        <button onclick="getWeather()" class="btn" style="margin-top: 10px;">Get Weather</button>
+                    </div>
+                    <div id="weatherResult"></div>
+                </div>
+                
+                <div id="itinerary" class="tab-content">
+                    <h2>📅 Daily Itinerary</h2>
+                    <div class="form-group">
+                        <label for="itineraryCity">🏙️ Enter destination:</label>
+                        <input type="text" id="itineraryCity" placeholder="Enter destination city">
+                        <button onclick="getItinerary()" class="btn" style="margin-top: 10px;">Generate Itinerary</button>
+                    </div>
+                    <div id="itineraryResult"></div>
+                </div>
+                
+                <div id="packing" class="tab-content">
+                    <h2>🎒 Packing List</h2>
+                    <div class="form-group">
+                        <label for="packingCity">🏙️ Enter destination:</label>
+                        <input type="text" id="packingCity" placeholder="Enter destination city">
+                        <button onclick="getPackingList()" class="btn" style="margin-top: 10px;">Generate Packing List</button>
+                    </div>
+                    <div id="packingResult"></div>
+                </div>
+                
+                <div id="visa" class="tab-content">
+                    <h2>📋 Visa Requirements</h2>
+                    <div class="form-group">
+                        <label for="visaCountry">🌍 Enter destination country:</label>
+                        <input type="text" id="visaCountry" placeholder="Enter country name">
+                        <button onclick="getVisaInfo()" class="btn" style="margin-top: 10px;">Get Visa Info</button>
+                    </div>
+                    <div class="warning-box">
+                        <strong>⚠️ Important:</strong> This is general information. Please verify with official embassy sources before traveling.
+                    </div>
+                    <div id="visaResult"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentWeather = {};
+        
+        function showTab(tabName) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+            
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+        
+        function getFormData() {
+            const form = document.getElementById('travelForm');
+            const formData = new FormData(form);
+            const data = {};
+            
+            // Get regular form fields
+            for (let [key, value] of formData.entries()) {
+                if (key === 'interests') {
+                    if (!data.interests) data.interests = [];
+                    data.interests.push(value);
+                } else {
+                    data[key] = value;
+                }
+            }
+            
+            // Handle unchecked interests
+            if (!data.interests) data.interests = [];
+            
+            return data;
+        }
+        
+        function showLoading(elementId) {
+            document.getElementById(elementId).innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>🌟 Creating your perfect adventure...</p>
+                </div>
+            `;
+        }
+        
+        document.getElementById('travelForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const data = getFormData();
+            showLoading('destinationsResult');
+            
+            try {
+                const response = await fetch('/plan', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    document.getElementById('destinationsResult').innerHTML = `
+                        <div class="result-box">${result.destinations}</div>
+                    `;
+                } else {
+                    document.getElementById('destinationsResult').innerHTML = `
+                        <div class="result-box">Error: ${result.error}</div>
+                    `;
+                }
+            } catch (error) {
+                document.getElementById('destinationsResult').innerHTML = `
+                    <div class="result-box">Error: ${error.message}</div>
+                `;
+            }
+        });
+        
+        async function getWeather() {
+            const city = document.getElementById('weatherCity').value;
+            if (!city) {
+                alert('Please enter a city name');
+                return;
+            }
+            
+            showLoading('weatherResult');
+            
+            try {
+                const response = await fetch('/weather', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({city: city})
+                });
+                
+                const result = await response.json();
+                
+                if (result.error) {
+                    document.getElementById('weatherResult').innerHTML = `
+                        <div class="result-box">Error: ${result.error}</div>
+                    `;
+                } else {
+                    currentWeather = result;
+                    document.getElementById('weatherResult').innerHTML = `
+                        <div class="weather-grid">
+                            <div class="weather-card">
+                                <div class="weather-value">${result.temperature}°C</div>
+                                <div class="weather-label">🌡️ Temperature</div>
+                            </div>
+                            <div class="weather-card">
+                                <div class="weather-value">${result.feels_like}°C</div>
+                                <div class="weather-label">🤚 Feels Like</div>
+                            </div>
+                            <div class="weather-card">
+                                <div class="weather-value">${result.humidity}%</div>
+                                <div class="weather-label">💧 Humidity</div>
+                            </div>
+                            <div class="weather-card">
+                                <div class="weather-value">${result.description}</div>
+                                <div class="weather-label">☁️ Conditions</div>
+                            </div>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                document.getElementById('weatherResult').innerHTML = `
+                    <div class="result-box">Error: ${error.message}</div>
+                `;
+            }
+        }
+        
+        async function getItinerary() {
+            const destination = document.getElementById('itineraryCity').value;
+            if (!destination) {
+                alert('Please enter a destination');
+                return;
+            }
+            
+            showLoading('itineraryResult');
+            const data = getFormData();
+            
+            try {
+                const response = await fetch('/itinerary', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        destination: destination,
+                        interests: data.interests,
+                        days: parseInt(data.trip_days)
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.error) {
+                    document.getElementById('itineraryResult').innerHTML = `
+                        <div class="result-box">Error: ${result.error}</div>
+                    `;
+                } else {
+                    document.getElementById('itineraryResult').innerHTML = `
+                        <div class="result-box">${result.itinerary}</div>
+                    `;
+                }
+            } catch (error) {
+                document.getElementById('itineraryResult').innerHTML = `
+                    <div class="result-box">Error: ${error.message}</div>
+                `;
+            }
+        }
+        
+        async function getPackingList() {
+            const destination = document.getElementById('packingCity').value;
+            if (!destination) {
+                alert('Please enter a destination');
+                return;
+            }
+            
+            showLoading('packingResult');
+            const data = getFormData();
+            
+            try {
+                const response = await fetch('/packing', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        destination: destination,
+                        weather: currentWeather,
+                        days: parseInt(data.trip_days)
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.error) {
+                    document.getElementById('packingResult').innerHTML = `
+                        <div class="result-box">Error: ${result.error}</div>
+                    `;
+                } else {
+                    document.getElementById('packingResult').innerHTML = `
+                        <div class="result-box">${result.packing_list}</div>
+                    `;
+                }
+            } catch (error) {
+                document.getElementById('packingResult').innerHTML = `
+                    <div class="result-box">Error: ${error.message}</div>
+                `;
+            }
+        }
+        
+        async function getVisaInfo() {
+            const destination = document.getElementById('visaCountry').value;
+            if (!destination) {
+                alert('Please enter a destination country');
+                return;
+            }
+            
+            showLoading('visaResult');
+            const data = getFormData();
+            
+            try {
+                const response = await fetch('/visa', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        destination: destination,
+                        nationality: data.nationality
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.error) {
+                    document.getElementById('visaResult').innerHTML = `
+                        <div class="result-box">Error: ${result.error}</div>
+                    `;
+                } else {
+                    document.getElementById('visaResult').innerHTML = `
+                        <div class="result-box">${result.visa_info}</div>
+                    `;
+                }
+            } catch (error) {
+                document.getElementById('visaResult').innerHTML = `
+                    <div class="result-box">Error: ${error.message}</div>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>
