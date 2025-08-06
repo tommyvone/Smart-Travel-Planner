@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🌍 AI Travel Planner</title>
+    <title>🌍 TravelGenie - AI Travel Planner</title>
     <style>
         * {
             margin: 0;
@@ -14,132 +14,209 @@
         
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            overflow: hidden;
-        }
-        
-        .header {
-            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            text-align: center;
-            padding: 40px 20px;
-        }
-        
-        .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-        }
-        
-        .header p {
-            font-size: 1.2em;
-            opacity: 0.9;
-        }
-        
-        .main-content {
-            display: flex;
-            min-height: 600px;
-        }
-        
-        .sidebar {
-            width: 350px;
             background: #f8f9fa;
-            padding: 30px;
-            border-right: 1px solid #e9ecef;
-        }
-        
-        .content {
-            flex: 1;
-            padding: 30px;
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
+            min-height: 100vh;
             color: #333;
         }
         
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e9ecef;
-            border-radius: 8px;
-            font-size: 14px;
-            transition: border-color 0.3s;
+        .navbar {
+            background: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e9ecef;
         }
         
-        .form-group input:focus, .form-group select:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-        
-        .interests-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 10px;
-        }
-        
-        .interest-item {
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
             display: flex;
             align-items: center;
             gap: 8px;
         }
         
-        .interest-item input[type="checkbox"] {
-            width: auto;
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
         }
         
-        .btn {
-            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        .nav-menu a {
+            text-decoration: none;
+            color: #666;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-menu a:hover {
+            color: #667eea;
+        }
+        
+        .nav-menu a.active {
+            color: #667eea;
+            font-weight: 600;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        
+        .main-content {
+            display: flex;
+            gap: 2rem;
+            min-height: calc(100vh - 120px);
+        }
+        
+        .sidebar {
+            width: 400px;
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            height: fit-content;
+        }
+        
+        .content {
+            flex: 1;
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        
+        .page-title {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 2rem;
+            font-weight: 600;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333;
+            font-size: 0.9rem;
+        }
+        
+        .form-group input, 
+        .form-group select, 
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            transition: border-color 0.3s;
+            background: #f8f9fa;
+        }
+        
+        .form-group input:focus, 
+        .form-group select:focus, 
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .interests-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .interest-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 6px;
+            transition: background 0.2s;
+        }
+        
+        .interest-item:hover {
+            background: #f0f0f0;
+        }
+        
+        .interest-item input[type="checkbox"] {
+            width: auto;
+            margin: 0;
+        }
+        
+        .interest-item label {
+            margin: 0;
+            font-weight: 400;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
-            padding: 15px 30px;
+            padding: 1rem 2rem;
             border-radius: 8px;
-            font-size: 16px;
+            font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
             width: 100%;
-            transition: transform 0.2s;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
         
-        .btn:hover {
+        .btn-primary:hover {
             transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
         }
         
-        .btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .btn-secondary:hover {
+            background: #5a6268;
         }
         
         .api-status {
-            background: #fff;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
+            background: #f8f9fa;
             border: 1px solid #e9ecef;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .api-status h3 {
+            margin-bottom: 1rem;
+            color: #333;
+            font-size: 1.1rem;
         }
         
         .status-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
+            margin-bottom: 0.75rem;
         }
         
         .status-item:last-child {
@@ -147,9 +224,9 @@
         }
         
         .status-badge {
-            padding: 4px 12px;
+            padding: 0.25rem 0.75rem;
             border-radius: 20px;
-            font-size: 12px;
+            font-size: 0.75rem;
             font-weight: 600;
         }
         
@@ -171,23 +248,27 @@
         .tabs {
             display: flex;
             border-bottom: 2px solid #e9ecef;
-            margin-bottom: 20px;
+            margin-bottom: 2rem;
+            gap: 1rem;
         }
         
         .tab {
-            padding: 15px 25px;
+            padding: 1rem 1.5rem;
             cursor: pointer;
             border: none;
             background: none;
-            font-size: 16px;
+            font-size: 0.95rem;
+            font-weight: 500;
             color: #666;
             border-bottom: 3px solid transparent;
             transition: all 0.3s;
+            border-radius: 8px 8px 0 0;
         }
         
         .tab.active {
             color: #667eea;
             border-bottom-color: #667eea;
+            background: #f8f9fa;
         }
         
         .tab-content {
@@ -201,8 +282,8 @@
         .result-box {
             background: #f8f9fa;
             border-radius: 10px;
-            padding: 20px;
-            margin-top: 20px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
             border-left: 4px solid #667eea;
             white-space: pre-wrap;
             line-height: 1.6;
@@ -211,33 +292,34 @@
         .weather-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
+            gap: 1rem;
+            margin-top: 1.5rem;
         }
         
         .weather-card {
             background: white;
-            padding: 20px;
+            padding: 1.5rem;
             border-radius: 10px;
             text-align: center;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border: 1px solid #e9ecef;
         }
         
         .weather-value {
-            font-size: 1.5em;
+            font-size: 1.5rem;
             font-weight: bold;
             color: #667eea;
         }
         
         .weather-label {
             color: #666;
-            font-size: 0.9em;
-            margin-top: 5px;
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
         }
         
         .loading {
             text-align: center;
-            padding: 40px;
+            padding: 3rem;
             color: #666;
         }
         
@@ -245,10 +327,10 @@
             border: 3px solid #f3f3f3;
             border-top: 3px solid #667eea;
             border-radius: 50%;
-            width: 30px;
-            height: 30px;
+            width: 40px;
+            height: 40px;
             animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
+            margin: 0 auto 1rem;
         }
         
         @keyframes spin {
@@ -258,30 +340,87 @@
         
         .info-box {
             background: #e7f3ff;
-            border-left: 4px solid #007bff;
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 5px;
+            border: 1px solid #b3d7ff;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            font-size: 0.9rem;
         }
         
         .warning-box {
             background: #fff3cd;
-            border-left: 4px solid #ffc107;
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 5px;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            font-size: 0.9rem;
+        }
+        
+        .footer {
+            background: white;
+            border-top: 1px solid #e9ecef;
+            padding: 2rem;
+            text-align: center;
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 3rem;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-links a {
+            color: #666;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: #667eea;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+            }
+            
+            .nav-menu {
+                display: none;
+            }
+            
+            .container {
+                padding: 0 1rem;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>🌍 AI Travel Planner</h1>
-            <p>✈️ Plan Your Perfect Adventure with AI-powered recommendations!</p>
+    <nav class="navbar">
+        <div class="logo">
+            🌍 TravelGenie
         </div>
-        
+        <ul class="nav-menu">
+            <li><a href="#" class="active">Home</a></li>
+            <li><a href="#" onclick="showTab('destinations')">Itinerary Input</a></li>
+            <li><a href="#" onclick="showTab('itinerary')">Generated Itinerary</a></li>
+            <li><a href="#" onclick="showTab('packing')">Travel Resources</a></li>
+            <li><a href="#" onclick="showTab('visa')">User</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
         <div class="main-content">
             <div class="sidebar">
+                <h2 class="page-title">Itinerary Input</h2>
+                
                 <div class="api-status">
                     <h3>🔧 API Status</h3>
                     <div class="status-item">
@@ -305,15 +444,34 @@
                 </div>
                 
                 <form id="travelForm">
-                    <h3>📍 Location Details</h3>
                     <div class="form-group">
-                        <label for="departure_city">🏠 Departure City</label>
-                        <input type="text" id="departure_city" name="departure_city" value="New York" required>
+                        <label for="budget">Budget</label>
+                        <input type="text" id="budget" name="budget" placeholder="Enter your budget (e.g., $2000)" required>
                     </div>
                     
                     <div class="form-group">
-                        <label for="zip_code">📮 Your Zip Code (Optional)</label>
-                        <input type="text" id="zip_code" name="zip_code" placeholder="e.g. 10001">
+                        <label for="interests">Interests</label>
+                        <textarea id="interests" name="interests" placeholder="Enter your interests (e.g., beaches, museums, local food, nightlife)"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="preferred_destinations">Preferred Destinations</label>
+                        <textarea id="preferred_destinations" name="preferred_destinations" placeholder="Enter preferred destinations or leave blank for suggestions"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="specific_requirements">Specific Requirements</label>
+                        <textarea id="specific_requirements" name="specific_requirements" placeholder="Enter any specific requirements or preferences"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="travel_dates">Travel Dates</label>
+                        <input type="text" id="travel_dates" name="travel_dates" placeholder="Select travel dates (e.g., Dec 15-22, 2024)">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="departure_city">🏠 Departure City</label>
+                        <input type="text" id="departure_city" name="departure_city" value="New York" required>
                     </div>
                     
                     <div class="form-group">
@@ -321,71 +479,12 @@
                         <input type="text" id="nationality" name="nationality" value="American" required>
                     </div>
                     
-                    <h3>💰 Budget & Preferences</h3>
-                    <div class="form-group">
-                        <label for="budget">💵 Budget Range</label>
-                        <select id="budget" name="budget">
-                            <option value="Budget ($0-$1000)">Budget ($0-$1000)</option>
-                            <option value="Mid-range ($1000-$3000)" selected>Mid-range ($1000-$3000)</option>
-                            <option value="Luxury ($3000+)">Luxury ($3000+)</option>
-                        </select>
-                    </div>
-                    
                     <div class="form-group">
                         <label for="trip_days">📅 Trip Duration (days)</label>
                         <input type="number" id="trip_days" name="trip_days" value="7" min="1" max="30">
                     </div>
                     
-                    <div class="form-group">
-                        <label for="climate">🌡️ Preferred Climate</label>
-                        <select id="climate" name="climate">
-                            <option value="☀️ Warm">☀️ Warm</option>
-                            <option value="❄️ Cool">❄️ Cool</option>
-                            <option value="🌴 Tropical">🌴 Tropical</option>
-                            <option value="🌤️ Temperate">🌤️ Temperate</option>
-                            <option value="🤷 No preference" selected>🤷 No preference</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>🎪 What interests you?</label>
-                        <div class="interests-grid">
-                            <div class="interest-item">
-                                <input type="checkbox" id="beaches" name="interests" value="🏖️ Beaches" checked>
-                                <label for="beaches">🏖️ Beaches</label>
-                            </div>
-                            <div class="interest-item">
-                                <input type="checkbox" id="museums" name="interests" value="🏛️ Museums">
-                                <label for="museums">🏛️ Museums</label>
-                            </div>
-                            <div class="interest-item">
-                                <input type="checkbox" id="hiking" name="interests" value="🥾 Hiking">
-                                <label for="hiking">🥾 Hiking</label>
-                            </div>
-                            <div class="interest-item">
-                                <input type="checkbox" id="food" name="interests" value="🍕 Food" checked>
-                                <label for="food">🍕 Food</label>
-                            </div>
-                            <div class="interest-item">
-                                <input type="checkbox" id="nightlife" name="interests" value="🌃 Nightlife">
-                                <label for="nightlife">🌃 Nightlife</label>
-                            </div>
-                            <div class="interest-item">
-                                <input type="checkbox" id="history" name="interests" value="📚 History">
-                                <label for="history">📚 History</label>
-                            </div>
-                            <div class="interest-item">
-                                <input type="checkbox" id="shopping" name="interests" value="🛍️ Shopping">
-                                <label for="shopping">🛍️ Shopping</label>
-                            </div>
-                            <div class="interest-item">
-                                <input type="checkbox" id="adventure" name="interests" value="🏄 Adventure Sports">
-                                <label for="adventure">🏄 Adventure</label>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <button type="submit" class="btn">🚀 Plan My Amazing Trip!</button>
+                    <button type="submit" class="btn-primary">Submit</button>
                 </form>
                 
                 {% if not api_status.openai or not api_status.weather %}
@@ -407,7 +506,7 @@
                 
                 <div id="destinations" class="tab-content active">
                     <h2>🎯 Recommended Destinations</h2>
-                    <p>Fill in your preferences and click "Plan My Amazing Trip!" to get personalized destination recommendations.</p>
+                    <p>Fill in your preferences and click "Submit" to get personalized destination recommendations tailored to your budget, interests, and travel style.</p>
                     <div id="destinationsResult"></div>
                 </div>
                 
@@ -416,7 +515,7 @@
                     <div class="form-group">
                         <label for="weatherCity">🏙️ Enter destination city:</label>
                         <input type="text" id="weatherCity" placeholder="e.g. Paris, Tokyo, New York">
-                        <button onclick="getWeather()" class="btn" style="margin-top: 10px;">Get Weather</button>
+                        <button onclick="getWeather()" class="btn-secondary" style="margin-top: 10px;">Get Weather</button>
                     </div>
                     <div id="weatherResult"></div>
                 </div>
@@ -426,7 +525,7 @@
                     <div class="form-group">
                         <label for="itineraryCity">🏙️ Enter destination:</label>
                         <input type="text" id="itineraryCity" placeholder="Enter destination city">
-                        <button onclick="getItinerary()" class="btn" style="margin-top: 10px;">Generate Itinerary</button>
+                        <button onclick="getItinerary()" class="btn-secondary" style="margin-top: 10px;">Generate Itinerary</button>
                     </div>
                     <div id="itineraryResult"></div>
                 </div>
@@ -436,7 +535,7 @@
                     <div class="form-group">
                         <label for="packingCity">🏙️ Enter destination:</label>
                         <input type="text" id="packingCity" placeholder="Enter destination city">
-                        <button onclick="getPackingList()" class="btn" style="margin-top: 10px;">Generate Packing List</button>
+                        <button onclick="getPackingList()" class="btn-secondary" style="margin-top: 10px;">Generate Packing List</button>
                     </div>
                     <div id="packingResult"></div>
                 </div>
@@ -446,7 +545,7 @@
                     <div class="form-group">
                         <label for="visaCountry">🌍 Enter destination country:</label>
                         <input type="text" id="visaCountry" placeholder="Enter country name">
-                        <button onclick="getVisaInfo()" class="btn" style="margin-top: 10px;">Get Visa Info</button>
+                        <button onclick="getVisaInfo()" class="btn-secondary" style="margin-top: 10px;">Get Visa Info</button>
                     </div>
                     <div class="warning-box">
                         <strong>⚠️ Important:</strong> This is general information. Please verify with official embassy sources before traveling.
@@ -456,6 +555,14 @@
             </div>
         </div>
     </div>
+
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+        </div>
+        <p>© TravelGenie 2024</p>
+    </footer>
 
     <script>
         let currentWeather = {};
@@ -479,18 +586,17 @@
             const formData = new FormData(form);
             const data = {};
             
-            // Get regular form fields
+            // Get form fields
             for (let [key, value] of formData.entries()) {
-                if (key === 'interests') {
-                    if (!data.interests) data.interests = [];
-                    data.interests.push(value);
-                } else {
-                    data[key] = value;
-                }
+                data[key] = value;
             }
             
-            // Handle unchecked interests
-            if (!data.interests) data.interests = [];
+            // Convert interests to array format
+            if (data.interests) {
+                data.interests = data.interests.split(',').map(interest => interest.trim());
+            } else {
+                data.interests = [];
+            }
             
             return data;
         }
