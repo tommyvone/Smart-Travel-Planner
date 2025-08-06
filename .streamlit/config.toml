@@ -9,4 +9,4 @@ enableCORS = false
 enableXsrfProtection = false
 
 [global]
-email = ""
+showWarningOnDirectExecution = false
