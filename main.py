@@ -32,11 +32,8 @@ class TravelPlanner:
 
             if openai_key and len(openai_key) > 10:  # Basic validation
                 try:
-                    # Initialize OpenAI client with minimal configuration to avoid version conflicts
-                    self.openai_client = openai.OpenAI(
-                        api_key=openai_key,
-                        timeout=30.0
-                    )
+                    # Initialize OpenAI client with basic configuration
+                    self.openai_client = openai.OpenAI(api_key=openai_key)
                     print("✅ OpenAI client initialized successfully")
 
                     # Test the client with a simple request
