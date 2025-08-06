@@ -42,7 +42,21 @@ class TravelPlanner:
     def get_destination_suggestions(self, budget: str, interests: List[str], climate: str, departure_city: str, zip_code: str = "") -> str:
         """Get travel destination suggestions using OpenAI"""
         if not self.openai_client:
-            return "OpenAI API not configured. Please add your API key to Replit Secrets."
+            return """🚀 Welcome to Smart Travel Planner! 
+
+To get personalized travel recommendations, you'll need to add your OpenAI API key:
+
+🔑 How to add your API key:
+1. Get a free API key from OpenAI at: https://platform.openai.com/api-keys
+2. In Replit, click on 'Tools' in the left sidebar
+3. Select 'Secrets' from the tools menu
+4. Click '+ New Secret'
+5. Set the key name to: OPENAI_API_KEY
+6. Paste your API key as the value
+7. Click 'Add Secret'
+8. Refresh this page and try again!
+
+Once set up, I'll be able to create amazing travel plans just for you! ✈️"""
 
         try:
             location_info = departure_city
@@ -105,7 +119,7 @@ class TravelPlanner:
     def generate_itinerary(self, destination: str, interests: List[str], days: int) -> str:
         """Generate daily itinerary using OpenAI"""
         if not self.openai_client:
-            return "OpenAI API not configured."
+            return "🔑 Please add your OpenAI API key to Replit Secrets to generate itineraries. See the main page for setup instructions!"
 
         try:
             prompt = f"""
@@ -134,7 +148,7 @@ class TravelPlanner:
     def generate_packing_list(self, destination: str, weather: Dict[str, Any], days: int) -> str:
         """Generate packing list based on destination and weather"""
         if not self.openai_client:
-            return "OpenAI API not configured."
+            return "🎒 Please add your OpenAI API key to Replit Secrets to generate packing lists. See the main page for setup instructions!"
 
         try:
             weather_info = f"Temperature: {weather.get('temperature', 'N/A')}°C, {weather.get('description', 'N/A')}"
@@ -166,7 +180,7 @@ class TravelPlanner:
     def get_visa_info(self, destination: str, nationality: str) -> str:
         """Get visa requirements information"""
         if not self.openai_client:
-            return "OpenAI API not configured."
+            return "📋 Please add your OpenAI API key to Replit Secrets to get visa information. See the main page for setup instructions!"
 
         try:
             prompt = f"""
