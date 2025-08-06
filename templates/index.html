@@ -421,27 +421,7 @@
             <div class="sidebar">
                 <h2 class="page-title">Itinerary Input</h2>
                 
-                <div class="api-status">
-                    <h3>🔧 API Status</h3>
-                    <div class="status-item">
-                        <span>OpenAI API</span>
-                        <span class="status-badge {% if api_status.openai %}status-ready{% else %}status-missing{% endif %}">
-                            {% if api_status.openai %}✅ Ready{% else %}❌ Missing{% endif %}
-                        </span>
-                    </div>
-                    <div class="status-item">
-                        <span>Weather API</span>
-                        <span class="status-badge {% if api_status.weather %}status-ready{% else %}status-missing{% endif %}">
-                            {% if api_status.weather %}✅ Ready{% else %}❌ Missing{% endif %}
-                        </span>
-                    </div>
-                    <div class="status-item">
-                        <span>Google Maps</span>
-                        <span class="status-badge {% if api_status.google_maps %}status-ready{% else %}status-optional{% endif %}">
-                            {% if api_status.google_maps %}✅ Ready{% else %}⚠️ Optional{% endif %}
-                        </span>
-                    </div>
-                </div>
+                
                 
                 <form id="travelForm">
                     <div class="form-group">
