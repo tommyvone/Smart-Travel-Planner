@@ -8,6 +8,42 @@ from datetime import datetime, timedelta
 import os
 from typing import List, Dict, Any
 
+def check_api_status(planner):
+    """Check which APIs are configured"""
+    status = {
+        'openai': planner.openai_client is not None,
+        'weather': planner.weather_api_key is not None,
+        'google_maps': planner.gmaps is not None
+    }
+    return status
+
+def display_api_status(status):
+    """Display API configuration status"""
+    st.markdown("### 🔧 API Configuration Status")
+    
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        if status['openai']:
+            st.success("✅ OpenAI API Ready")
+        else:
+            st.error("❌ OpenAI API Missing")
+            
+    with col2:
+        if status['weather']:
+            st.success("✅ Weather API Ready")
+        else:
+            st.error("❌ Weather API Missing")
+            
+    with col3:
+        if status['google_maps']:
+            st.success("✅ Google Maps Ready")
+        else:
+            st.warning("⚠️ Google Maps Optional")
+    
+    if not all([status['openai'], status['weather']]):
+        st.info("💡 **Need API Keys?** Click the '+ Secrets' button to add your API keys and unlock all features!")
+
 # Set page configuration
 st.set_page_config(
     page_title="AI Travel Planner",
@@ -193,303 +229,212 @@ class TravelPlanner:
 
 def main():
     st.title("🌍 AI Travel Planner")
-    st.markdown("### Plan your perfect trip with AI-powered recommendations!")
-    
-    # Welcome message and instructions
-    if not any(key in st.session_state for key in ['destinations', 'trip_planned']):
-        st.info("👋 Welcome! Fill out your preferences in the sidebar and click '🚀 Plan My Trip' to get started!")
+    st.markdown("""
+    <div style='text-align: center; padding: 20px; background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); border-radius: 10px; margin-bottom: 20px;'>
+        <h2 style='color: white; margin: 0;'>✈️ Plan Your Perfect Adventure!</h2>
+        <p style='color: white; margin: 5px 0 0 0;'>AI-powered travel recommendations tailored just for you</p>
+    </div>
+    """, unsafe_allow_html=True)
     
     # Initialize the travel planner
     planner = TravelPlanner()
     
-    # Sidebar for user inputs with better organization
-    st.sidebar.header("✈️ Your Travel Preferences")
-    st.sidebar.markdown("*Fill out the information below to get personalized recommendations*")
+    # Check API status
+    api_status = check_api_status(planner)
+    display_api_status(api_status)
     
-    with st.sidebar.form("travel_preferences"):
-        st.subheader("💰 Budget & Location")
-        budget = st.selectbox(
-            "Budget Range per person",
-            ["Budget ($0-$1000)", "Mid-range ($1000-$3000)", "Luxury ($3000+)"],
-            help="Select your total budget range for the entire trip"
-        )
-        
-        departure_city = st.text_input(
-            "Departure City", 
-            "New York",
-            help="Where will you be traveling from?"
-        )
-        
-        zip_code = st.text_input(
-            "📍 Your Zip Code (Optional)", 
-            placeholder="12345",
-            help="Enter your zip code for more accurate location-based recommendations"
-        )
-        
-        st.subheader("📅 Travel Details")
-        travel_dates = st.date_input(
-            "Travel Dates",
-            value=(datetime.now().date(), datetime.now().date() + timedelta(days=7)),
-            help="When do you want to travel?"
-        )
-        
-        st.subheader("🎯 Preferences")
-        interests = st.multiselect(
-            "What interests you most?",
-            ["Beaches", "Museums", "Hiking", "Food", "Nightlife", "History", 
-             "Shopping", "Adventure Sports", "Wildlife", "Architecture", "Culture", "Relaxation"],
-            default=["Beaches", "Food"],
-            help="Select all that apply - this helps us recommend the perfect destinations!"
-        )
-        
-        climate = st.selectbox(
-            "Preferred Climate",
-            ["Warm", "Cool", "Tropical", "Temperate", "No preference"],
-            help="What weather do you prefer for your trip?"
-        )
-        
-        nationality = st.text_input(
-            "Your Nationality", 
-            "American",
-            help="This helps us provide accurate visa information"
-        )
-        
-        # Submit button
-        plan_trip = st.form_submit_button("🚀 Plan My Trip", type="primary", use_container_width=True)
+    # Sidebar for user inputs
+    st.sidebar.header("✈️ Your Travel Preferences")
+    st.sidebar.markdown("Fill in your details below to get personalized recommendations!")
+    
+    # User input collection with better organization
+    st.sidebar.markdown("#### 📍 Location Details")
+    departure_city = st.sidebar.text_input("🏠 Departure City", "New York", help="Where will you be traveling from?")
+    
+    zip_code = st.sidebar.text_input(
+        "📮 Your Zip Code (Optional)", 
+        placeholder="e.g. 10001",
+        help="💡 Adding your zip code helps us provide more accurate local recommendations and travel times!"
+    )
+    
+    nationality = st.sidebar.text_input("🌍 Your Nationality", "American", help="Needed for visa requirements")
+    
+    st.sidebar.markdown("#### 💰 Budget & Dates")
+    budget = st.sidebar.selectbox(
+        "💵 Budget Range",
+        ["Budget ($0-$1000)", "Mid-range ($1000-$3000)", "Luxury ($3000+)"],
+        help="Choose your comfortable spending range"
+    )
+    
+    travel_dates = st.sidebar.date_input(
+        "📅 Travel Dates",
+        value=(datetime.now().date(), datetime.now().date() + timedelta(days=7)),
+        help="Select your trip start and end dates"
+    )
+    
+    st.sidebar.markdown("#### 🎯 Preferences")
+    interests = st.sidebar.multiselect(
+        "🎪 What interests you?",
+        ["🏖️ Beaches", "🏛️ Museums", "🥾 Hiking", "🍕 Food", "🌃 Nightlife", "📚 History", "🛍️ Shopping", "🏄 Adventure Sports", "🐾 Wildlife", "🏗️ Architecture"],
+        default=["🏖️ Beaches", "🍕 Food"],
+        help="Select all that apply - the more you choose, the better our recommendations!"
+    )
+    
+    climate = st.sidebar.selectbox(
+        "🌡️ Preferred Climate",
+        ["☀️ Warm", "❄️ Cool", "🌴 Tropical", "🌤️ Temperate", "🤷 No preference"],
+        help="What weather makes you happiest?"
+    )
     
     # Calculate trip duration
     if len(travel_dates) == 2:
-        trip_days = (travel_dates[1] - travel_dates[0]).days + 1
-        st.sidebar.success(f"Trip duration: {trip_days} days")
+        trip_days = (travel_dates[1] - travel_dates[0]).days
     else:
         trip_days = 7
     
-    # Main content area
-    if plan_trip:
-        if not interests:
-            st.error("⚠️ Please select at least one interest to get personalized recommendations!")
-            return
-            
-        # Store data in session state
-        st.session_state['trip_planned'] = True
-        st.session_state['budget'] = budget
-        st.session_state['departure_city'] = departure_city
-        st.session_state['zip_code'] = zip_code
-        st.session_state['interests'] = interests
-        st.session_state['climate'] = climate
-        st.session_state['nationality'] = nationality
-        st.session_state['trip_days'] = trip_days
+    # Main interface tabs
+    tab1, tab2, tab3, tab4, tab5 = st.tabs(["🎯 Destinations", "🌤️ Weather", "📅 Itinerary", "🎒 Packing", "📋 Visa Info"])
     
-    # Show tabs only if trip has been planned
-    if st.session_state.get('trip_planned', False):
-        # Progress indicator
-        st.markdown("---")
-        st.markdown("### 🎯 Your Personalized Travel Plan")
+    # Add some spacing and styling
+    st.sidebar.markdown("---")
+    st.sidebar.markdown("### 🚀 Ready to Explore?")
+    
+    # Check if minimum requirements are met
+    can_plan = departure_city and interests
+    
+    if not can_plan:
+        st.sidebar.warning("⚠️ Please fill in your departure city and interests first!")
+    
+    plan_button = st.sidebar.button(
+        "🚀 Plan My Amazing Trip!", 
+        type="primary", 
+        disabled=not can_plan,
+        help="Click to generate your personalized travel plan!"
+    )
+    
+    if plan_button:
+        # Store zip code in session state
+        if zip_code:
+            st.session_state['zip_code'] = zip_code
+            
+        st.balloons()  # Celebratory animation!
         
-        # Main interface tabs with better descriptions
-        tab1, tab2, tab3, tab4, tab5 = st.tabs([
-            "🏝️ Destinations", 
-            "🌤️ Weather", 
-            "📅 Itinerary", 
-            "🎒 Packing", 
-            "📋 Visa Info"
-        ])
-        
-        # Tab 1: Destination Suggestions
-        with tab1:
-            st.header("🏝️ Perfect Destinations for You")
+        with st.spinner("🌟 Creating your perfect adventure..."):
             
-            if 'destinations' not in st.session_state:
-                with st.spinner("🔍 Finding amazing destinations just for you..."):
-                    destinations = planner.get_destination_suggestions(
-                        st.session_state['budget'], 
-                        st.session_state['interests'], 
-                        st.session_state['climate'], 
-                        st.session_state['departure_city']
-                    )
-                    st.session_state['destinations'] = destinations
-            
-            st.write(st.session_state.get('destinations', ''))
-            
-            if st.session_state.get('destinations'):
-                st.success("💡 Tip: Copy a destination name to use in the other tabs!")
-        
-        # Tab 2: Weather Information
-        with tab2:
-            st.header("🌤️ Weather Forecast")
-            st.markdown("*Check the current weather at your destination*")
-            
-            col1, col2 = st.columns([3, 1])
-            with col1:
-                destination_for_weather = st.text_input(
-                    "🏙️ Destination City",
-                    placeholder="e.g., Paris, Tokyo, Barcelona",
-                    help="Enter a city name from your recommended destinations above"
-                )
-            with col2:
-                check_weather = st.button("Check Weather", type="secondary")
-            
-            if destination_for_weather and (check_weather or st.session_state.get('weather_checked')):
-                with st.spinner("🌡️ Getting current weather..."):
-                    weather = planner.get_weather_forecast(destination_for_weather)
-                    
-                if "error" not in weather:
-                    st.session_state['weather'] = weather
-                    st.session_state['destination_city'] = destination_for_weather
-                    st.session_state['weather_checked'] = True
-                    
-                    # Weather display with better formatting
-                    st.subheader(f"Current Weather in {destination_for_weather}")
-                    
-                    col1, col2, col3, col4 = st.columns(4)
-                    with col1:
-                        st.metric("🌡️ Temperature", f"{weather['temperature']}°C")
-                    with col2:
-                        st.metric("🤗 Feels Like", f"{weather['feels_like']}°C")
-                    with col3:
-                        st.metric("💧 Humidity", f"{weather['humidity']}%")
-                    with col4:
-                        st.metric("☁️ Conditions", weather['description'].title())
-                    
-                    # Weather advice
-                    temp = weather['temperature']
-                    if temp > 25:
-                        st.info("🌞 Great weather for outdoor activities! Don't forget sunscreen.")
-                    elif temp < 10:
-                        st.info("🧥 Pack warm clothes - it's quite cold!")
-                    else:
-                        st.info("👕 Mild weather - perfect for exploring!")
-                        
-                else:
-                    st.error(f"❌ {weather['error']} - Please check the city name and try again.")
-        
-        # Tab 3: Itinerary
-        with tab3:
-            st.header("📅 Your Daily Itinerary")
-            st.markdown("*Get a detailed day-by-day plan for your trip*")
-            
-            col1, col2 = st.columns([3, 1])
-            with col1:
-                destination_for_itinerary = st.text_input(
-                    "🗺️ Destination for Itinerary",
-                    value=st.session_state.get('destination_city', ''),
-                    placeholder="e.g., Rome, New York, Bangkok"
-                )
-            with col2:
-                generate_itinerary = st.button("Generate Plan", type="secondary")
-            
-            if destination_for_itinerary and (generate_itinerary or st.session_state.get('itinerary_generated')):
-                with st.spinner(f"🗓️ Creating your {st.session_state.get('trip_days', 7)}-day itinerary..."):
-                    if destination_for_itinerary not in st.session_state.get('itinerary_cache', {}):
-                        itinerary = planner.generate_itinerary(
-                            destination_for_itinerary, 
-                            st.session_state['interests'], 
-                            st.session_state['trip_days']
-                        )
-                        if 'itinerary_cache' not in st.session_state:
-                            st.session_state['itinerary_cache'] = {}
-                        st.session_state['itinerary_cache'][destination_for_itinerary] = itinerary
-                    
-                    st.session_state['itinerary_generated'] = True
-                    st.write(st.session_state['itinerary_cache'][destination_for_itinerary])
-                    st.success("✅ Your personalized itinerary is ready!")
-        
-        # Tab 4: Packing List
-        with tab4:
-            st.header("🎒 Smart Packing List")
-            st.markdown("*Get a personalized packing list based on your destination and weather*")
-            
-            if st.session_state.get('weather') and st.session_state.get('destination_city'):
-                with st.spinner("👕 Creating your personalized packing list..."):
-                    if 'packing_list' not in st.session_state:
-                        packing_list = planner.generate_packing_list(
-                            st.session_state['destination_city'], 
-                            st.session_state['weather'], 
-                            st.session_state['trip_days']
-                        )
-                        st.session_state['packing_list'] = packing_list
-                    
-                    st.write(st.session_state['packing_list'])
-                    st.success("✅ Your packing list is optimized for the weather and activities!")
-            else:
-                st.info("📍 Please check the weather for your destination first to generate a personalized packing list!")
-                if st.button("Go to Weather Tab"):
-                    st.experimental_rerun()
-        
-        # Tab 5: Visa Information
-        with tab5:
-            st.header("📋 Visa Requirements")
-            st.markdown("*Check if you need a visa for your destination*")
-            
-            col1, col2 = st.columns([3, 1])
-            with col1:
-                destination_for_visa = st.text_input(
-                    "🌍 Destination Country",
-                    placeholder="e.g., Japan, Germany, Thailand"
-                )
-            with col2:
-                check_visa = st.button("Check Visa", type="secondary")
-            
-            if destination_for_visa and st.session_state.get('nationality') and (check_visa or st.session_state.get('visa_checked')):
-                with st.spinner("📄 Checking visa requirements..."):
-                    visa_info = planner.get_visa_info(destination_for_visa, st.session_state['nationality'])
-                    st.session_state['visa_info'] = visa_info
-                    st.session_state['visa_checked'] = True
-                    
-                st.write(visa_info)
-                st.warning("⚠️ **Important**: This is general information only. Always verify current requirements with official embassy or consulate sources before traveling!")
+            # Tab 1: Destination Suggestions
+            with tab1:
+                st.header("🎯 Recommended Destinations")
+                destinations = planner.get_destination_suggestions(budget, interests, climate, departure_city)
+                st.write(destinations)
                 
-                # Helpful links
-                with st.expander("🔗 Useful Visa Resources"):
-                    st.markdown("""
-                    - **US Citizens**: [State Department Travel Advisories](https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories.html)
-                    - **General**: [VisaHQ](https://www.visahq.com/) or [iVisa](https://www.ivisa.com/)
-                    - **Embassy Finder**: Search "[Country] embassy [your location]"
-                    """)
+                # Store destination for other tabs
+                st.session_state['destinations'] = destinations
+            
+            # Tab 2: Weather Information
+            with tab2:
+                st.header("🌤️ Weather Forecast")
+                st.markdown("Check current weather conditions for your chosen destination")
+                
+                # Simple destination input for weather
+                destination_for_weather = st.text_input(
+                    "🏙️ Enter destination city for weather:",
+                    placeholder="e.g. Paris, Tokyo, New York",
+                    help="💡 Enter a city name from the recommended destinations above"
+                )
+                
+                if destination_for_weather:
+                    with st.spinner(f"Getting weather for {destination_for_weather}..."):
+                        weather = planner.get_weather_forecast(destination_for_weather)
+                        if "error" not in weather:
+                            st.success(f"Weather data found for {destination_for_weather}!")
+                            
+                            col1, col2, col3, col4 = st.columns(4)
+                            with col1:
+                                st.metric("🌡️ Temperature", f"{weather['temperature']}°C")
+                            with col2:
+                                st.metric("🤚 Feels Like", f"{weather['feels_like']}°C")
+                            with col3:
+                                st.metric("💧 Humidity", f"{weather['humidity']}%")
+                            with col4:
+                                st.metric("☁️ Conditions", weather['description'].title())
+                            
+                            # Weather recommendation
+                            temp = weather['temperature']
+                            if temp > 25:
+                                st.info("🌞 Perfect weather for outdoor activities!")
+                            elif temp > 15:
+                                st.info("🌤️ Great weather! Pack a light jacket for evenings.")
+                            else:
+                                st.info("🧥 Cool weather - don't forget warm clothes!")
+                            
+                            st.session_state['weather'] = weather
+                            st.session_state['destination_city'] = destination_for_weather
+                        else:
+                            st.error(f"❌ {weather['error']} - Please try a different city name")
+            
+            # Tab 3: Itinerary
+            with tab3:
+                st.header("📅 Daily Itinerary")
+                destination_for_itinerary = st.text_input(
+                    "Enter destination for itinerary:",
+                    value=st.session_state.get('destination_city', ''),
+                    help="Enter the destination city"
+                )
+                
+                if destination_for_itinerary:
+                    itinerary = planner.generate_itinerary(destination_for_itinerary, interests, trip_days)
+                    st.write(itinerary)
+            
+            # Tab 4: Packing List
+            with tab4:
+                st.header("🎒 Packing List")
+                if 'weather' in st.session_state and 'destination_city' in st.session_state:
+                    packing_list = planner.generate_packing_list(
+                        st.session_state['destination_city'], 
+                        st.session_state['weather'], 
+                        trip_days
+                    )
+                    st.write(packing_list)
+                else:
+                    st.info("Please check weather information first to generate a tailored packing list.")
+            
+            # Tab 5: Visa Information
+            with tab5:
+                st.header("📋 Visa Requirements")
+                destination_for_visa = st.text_input(
+                    "Enter destination country for visa info:",
+                    help="Enter the country name"
+                )
+                
+                if destination_for_visa and nationality:
+                    visa_info = planner.get_visa_info(destination_for_visa, nationality)
+                    st.write(visa_info)
+                    st.warning("⚠️ This is general information. Please verify with official embassy sources before traveling.")
     
-    else:
-        # Show getting started guide
-        st.markdown("### 🚀 How to Get Started")
+    # API Configuration Help
+    with st.expander("🔧 Need Help Setting Up API Keys?"):
+        st.markdown("""
+        ### 🎯 Quick Setup Guide
         
-        col1, col2, col3 = st.columns(3)
-        with col1:
-            st.markdown("""
-            **1. Set Your Preferences** 👈
-            - Choose your budget range
-            - Enter departure city
-            - Select travel dates
-            """)
+        **Step 1: Get Your Free API Keys**
+        - 🤖 **OpenAI** → [Get API Key](https://platform.openai.com/api-keys) (Required for AI features)
+        - 🌤️ **OpenWeatherMap** → [Get Free Key](https://openweathermap.org/api) (Required for weather)
+        - 🗺️ **Google Maps** → [Get API Key](https://developers.google.com/maps/documentation/javascript/get-api-key) (Optional)
         
-        with col2:
-            st.markdown("""
-            **2. Pick Your Interests** 🎯
-            - Select activities you enjoy
-            - Choose preferred climate
-            - Add your nationality
-            """)
+        **Step 2: Add to Replit Secrets**
+        1. Click the **+ button** in any pane and type "Secrets"
+        2. Add these three secrets:
+           - **Key:** `OPENAI_API_KEY` **Value:** [Your OpenAI key]
+           - **Key:** `OPENWEATHER_API_KEY` **Value:** [Your weather key]
+           - **Key:** `GOOGLE_MAPS_API_KEY` **Value:** [Your maps key]
         
-        with col3:
-            st.markdown("""
-            **3. Get Recommendations** ✨
-            - Click 'Plan My Trip'
-            - Explore the generated tabs
-            - Copy destinations between tabs
-            """)
-    
-    # Footer
-    st.markdown("---")
-    col1, col2 = st.columns([3, 1])
-    with col1:
-        st.markdown("Made with ❤️ using AI • Always verify travel information with official sources")
-    with col2:
-        # API Configuration Help
-        with st.expander("⚙️ Setup API Keys"):
-            st.markdown("""
-            **Need API keys?** Add these to Replit Secrets:
-            - `OPENAI_API_KEY` - [Get here](https://platform.openai.com/api-keys)
-            - `OPENWEATHER_API_KEY` - [Get here](https://openweathermap.org/api)
-            - `GOOGLE_MAPS_API_KEY` - [Get here](https://developers.google.com/maps) (optional)
-            """)
+        **Step 3: Restart the app** (click the Run button again)
+        
+        ✨ **Pro Tip:** OpenWeatherMap offers a generous free tier - perfect for testing!
+        """)
+        
+        if not all([planner.openai_client, planner.weather_api_key]):
+            st.warning("⚠️ Add your API keys above to unlock all the amazing features!")
 
 if __name__ == "__main__":
     main()
