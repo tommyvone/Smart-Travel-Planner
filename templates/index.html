@@ -831,18 +831,26 @@
 
                 if (result.error) {
                     document.getElementById('weatherResult').innerHTML = `
-                        <div class="result-box">Error: ${result.error}</div>
+                        <div class="result-box" style="background: linear-gradient(145deg, #ffeaa7 0%, #fab1a0 100%); border-left: 4px solid #e17055;">
+                            ⚠️ ${result.error}
+                        </div>
                     `;
                 } else {
                     currentWeather = result;
+                    const cityDisplay = result.city_name && result.country ? 
+                        `${result.city_name}, ${result.country}` : city;
+                    
                     document.getElementById('weatherResult').innerHTML = `
+                        <div class="info-box">
+                            📍 Weather for <strong>${cityDisplay}</strong>
+                        </div>
                         <div class="weather-grid">
                             <div class="weather-card">
-                                <div class="weather-value">${result.temperature}°C</div>
+                                <div class="weather-value">${Math.round(result.temperature)}°C</div>
                                 <div class="weather-label">🌡️ Temperature</div>
                             </div>
                             <div class="weather-card">
-                                <div class="weather-value">${result.feels_like}°C</div>
+                                <div class="weather-value">${Math.round(result.feels_like)}°C</div>
                                 <div class="weather-label">🤚 Feels Like</div>
                             </div>
                             <div class="weather-card">
@@ -850,11 +858,11 @@
                                 <div class="weather-label">💧 Humidity</div>
                             </div>
                             <div class="weather-card">
-                                <div class="weather-value">${result.description}</div>
+                                <div class="weather-value">${result.description.charAt(0).toUpperCase() + result.description.slice(1)}</div>
                                 <div class="weather-label">☁️ Conditions</div>
                             </div>
                         </div>
-                    `;
+                    `;</div>
                 }
             } catch (error) {
                 document.getElementById('weatherResult').innerHTML = `

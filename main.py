@@ -154,12 +154,46 @@ Once set up, I'll be able to create amazing travel plans just for you! ✈️"""
                     "temperature": data["main"]["temp"],
                     "description": data["weather"][0]["description"],
                     "humidity": data["main"]["humidity"],
-                    "feels_like": data["main"]["feels_like"]
+                    "feels_like": data["main"]["feels_like"],
+                    "city_name": data["name"],
+                    "country": data["sys"]["country"]
+                }
+            elif response.status_code == 404:
+                # Try to provide helpful suggestions
+                suggestions = self.get_city_suggestions(city)
+                return {
+                    "error": f"City '{city}' not found. {suggestions}"
                 }
             else:
-                return {"error": "City not found"}
+                return {"error": f"Weather service error (HTTP {response.status_code})"}
         except Exception as e:
             return {"error": f"Weather API error: {e}"}
+
+    def get_city_suggestions(self, city: str) -> str:
+        """Provide suggestions for city names"""
+        suggestions = [
+            "Try including the country (e.g., 'Paris, France' or 'London, UK')",
+            "Use the full city name without abbreviations",
+            "Check spelling of the city name",
+            "For US cities, try 'City, State' format (e.g., 'Austin, TX')"
+        ]
+        
+        # Common city name corrections
+        corrections = {
+            "ny": "New York, NY",
+            "la": "Los Angeles, CA",
+            "sf": "San Francisco, CA",
+            "dc": "Washington, DC",
+            "chi": "Chicago, IL",
+            "vegas": "Las Vegas, NV",
+            "miami": "Miami, FL"
+        }
+        
+        city_lower = city.lower().strip()
+        if city_lower in corrections:
+            return f"Did you mean '{corrections[city_lower]}'? Try: {', '.join(suggestions)}"
+        
+        return f"Suggestions: {', '.join(suggestions)}"
 
     def generate_itinerary(self, destination: str, interests: List[str], days: int) -> str:
         """Generate daily itinerary using OpenAI"""
