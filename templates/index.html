@@ -713,7 +713,7 @@
 
             // Show selected tab content
             document.getElementById(tabName).classList.add('active');
-            
+
             // Find and activate the corresponding tab button
             const tabButtons = document.querySelectorAll('.tab');
             tabButtons.forEach(tab => {
@@ -768,7 +768,7 @@
 
             // Switch to itinerary tab
             showTab('itinerary');
-            
+
             const data = getFormData();
             showLoading('itineraryResult');
 
@@ -831,18 +831,16 @@
 
                 if (result.error) {
                     document.getElementById('weatherResult').innerHTML = `
-                        <div class="result-box" style="background: linear-gradient(145deg, #ffeaa7 0%, #fab1a0 100%); border-left: 4px solid #e17055;">
-                            ⚠️ ${result.error}
+                        <div class="result-box" style="background: linear-gradient(145deg, #fab1a0 0%, #e17055 100%); color: white;">
+                            ❌ ${result.error}
                         </div>
                     `;
                 } else {
                     currentWeather = result;
-                    const cityDisplay = result.city_name && result.country ? 
-                        `${result.city_name}, ${result.country}` : city;
-                    
+                    const locationText = result.country ? `${result.city}, ${result.country}` : result.city;
                     document.getElementById('weatherResult').innerHTML = `
-                        <div class="info-box">
-                            📍 Weather for <strong>${cityDisplay}</strong>
+                        <div class="result-box" style="background: linear-gradient(145deg, #74b9ff 0%, #0984e3 100%); color: white; margin-bottom: 1rem;">
+                            📍 Weather for <strong>${locationText}</strong>
                         </div>
                         <div class="weather-grid">
                             <div class="weather-card">
@@ -862,7 +860,7 @@
                                 <div class="weather-label">☁️ Conditions</div>
                             </div>
                         </div>
-                    `;</div>
+                    `;
                 }
             } catch (error) {
                 document.getElementById('weatherResult').innerHTML = `

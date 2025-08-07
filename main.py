@@ -140,6 +140,11 @@ Once set up, I'll be able to create amazing travel plans just for you! ✈️"""
             return {"error": "Weather API not configured"}
 
         try:
+            # Clean up the city name
+            city = city.strip()
+            if not city:
+                return {"error": "Please enter a city name"}
+
             url = f"http://api.openweathermap.org/data/2.5/weather"
             params = {
                 "q": city,
@@ -147,27 +152,31 @@ Once set up, I'll be able to create amazing travel plans just for you! ✈️"""
                 "units": "metric"
             }
 
+            print(f"🌤️ Requesting weather for: {city}")
             response = requests.get(url, params=params)
+            print(f"🌤️ Weather API response: {response.status_code}")
+
             if response.status_code == 200:
                 data = response.json()
                 return {
-                    "temperature": data["main"]["temp"],
-                    "description": data["weather"][0]["description"],
+                    "temperature": round(data["main"]["temp"], 1),
+                    "description": data["weather"][0]["description"].title(),
                     "humidity": data["main"]["humidity"],
-                    "feels_like": data["main"]["feels_like"],
-                    "city_name": data["name"],
-                    "country": data["sys"]["country"]
+                    "feels_like": round(data["main"]["feels_like"], 1),
+                    "city": data.get("name", city),
+                    "country": data.get("sys", {}).get("country", "")
                 }
             elif response.status_code == 404:
-                # Try to provide helpful suggestions
-                suggestions = self.get_city_suggestions(city)
-                return {
-                    "error": f"City '{city}' not found. {suggestions}"
-                }
+                return {"error": f"City '{city}' not found. Please check the spelling and try again. You can also try adding the country name (e.g., 'Paris, France')"}
+            elif response.status_code == 401:
+                return {"error": "Weather API key is invalid"}
             else:
-                return {"error": f"Weather service error (HTTP {response.status_code})"}
+                error_data = response.json() if response.headers.get('content-type') == 'application/json' else {}
+                error_msg = error_data.get('message', f'API error (status {response.status_code})')
+                return {"error": f"Weather service error: {error_msg}"}
         except Exception as e:
-            return {"error": f"Weather API error: {e}"}
+            print(f"❌ Weather API exception: {e}")
+            return {"error": f"Unable to fetch weather data: {str(e)}"}
 
     def get_city_suggestions(self, city: str) -> str:
         """Provide suggestions for city names"""
@@ -177,7 +186,7 @@ Once set up, I'll be able to create amazing travel plans just for you! ✈️"""
             "Check spelling of the city name",
             "For US cities, try 'City, State' format (e.g., 'Austin, TX')"
         ]
-        
+
         # Common city name corrections
         corrections = {
             "ny": "New York, NY",
@@ -188,11 +197,11 @@ Once set up, I'll be able to create amazing travel plans just for you! ✈️"""
             "vegas": "Las Vegas, NV",
             "miami": "Miami, FL"
         }
-        
+
         city_lower = city.lower().strip()
         if city_lower in corrections:
             return f"Did you mean '{corrections[city_lower]}'? Try: {', '.join(suggestions)}"
-        
+
         return f"Suggestions: {', '.join(suggestions)}"
 
     def generate_itinerary(self, destination: str, interests: List[str], days: int) -> str:
