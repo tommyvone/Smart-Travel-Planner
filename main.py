@@ -22,30 +22,14 @@ class TravelPlanner:
             google_maps_key = os.getenv("GOOGLE_MAPS_API_KEY")
             self.weather_api_key = os.getenv("OPENWEATHER_API_KEY")
 
-            print(f"🔍 Debugging OpenAI API key:")
-            print(f"   - Key exists: {'Yes' if openai_key else 'No'}")
-            if openai_key:
-                print(f"   - Key length: {len(openai_key)}")
-                print(f"   - Key starts with 'sk-': {'Yes' if openai_key.startswith('sk-') else 'No'}")
-                print(f"   - Key preview: {openai_key[:10]}...{openai_key[-4:] if len(openai_key) > 14 else ''}")
+            # Validate OpenAI key exists
 
             if openai_key and len(openai_key) > 10:  # Basic validation
                 try:
-                    # Initialize OpenAI client - remove any conflicting parameters
+                    # Initialize OpenAI client
                     import openai
                     self.openai_client = openai.OpenAI(api_key=openai_key)
                     print("✅ OpenAI client initialized successfully")
-
-                    # Test the client with a simple request
-                    try:
-                        test_response = self.openai_client.chat.completions.create(
-                            model="gpt-3.5-turbo",
-                            messages=[{"role": "user", "content": "Hello"}],
-                            max_tokens=5
-                        )
-                        print("✅ OpenAI API test successful")
-                    except Exception as test_error:
-                        print(f"⚠️ OpenAI API test failed: {test_error}")
 
                 except Exception as openai_error:
                     print(f"❌ OpenAI client failed to initialize: {openai_error}")
@@ -371,4 +355,4 @@ def get_visa_info():
     return jsonify({'visa_info': visa_info})
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080, debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=False)
